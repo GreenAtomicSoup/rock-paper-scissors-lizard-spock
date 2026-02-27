@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rock Paper Scissors Lizard Spock</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #1e3c72, #2a5298);
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      margin: 20px;
+      font-size: 2.5em;
+      text-shadow: 2px 2px 4px #000;
+    }
+    .choices {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 30px 0;
+    }
+    button {
+      font-size: 1.2em;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+      min-width: 140px;
+    }
+    button:hover {
+      transform: scale(1.1);
+    }
+    #rock { background: #e74c3c; }
+    #paper { background: #3498db; }
+    #scissors { background: #f1c40f; }
+    #lizard { background: #9b59b6; }
+    #spock { background: #2ecc71; }
+
+    #result {
+      font-size: 1.8em;
+      margin: 30px 0;
+      min-height: 80px;
+    }
+    #scores {
+      font-size: 1.4em;
+    }
+    .emoji {
+      font-size: 3em;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Rock Paper Scissors Lizard Spock 🪨📄✂️🦎🖖</h1>
+  <p>From The Big Bang Theory – pick your move!</p>
+
+  <div class="choices">
+    <button id="rock">🪨 Rock</button>
+    <button id="paper">📄 Paper</button>
+    <button id="scissors">✂️ Scissors</button>
+    <button id="lizard">🦎 Lizard</button>
+    <button id="spock">🖖 Spock</button>
+  </div>
+
+  <div id="result">Make your choice above!</div>
+  <div id="scores">You: 0  –  Computer: 0</div>
+
+  <script>
+    const choices = ["rock", "paper", "scissors", "lizard", "spock"];
+    let playerScore = 0;
+    let computerScore = 0;
+
+    const resultDiv = document.getElementById("result");
+    const scoresDiv = document.getElementById("scores");
+
+    // Who beats whom (same logic as your Python version)
+    const wins = {
+      rock: ["scissors", "lizard"],
+      paper: ["rock", "spock"],
+      scissors: ["paper", "lizard"],
+      lizard: ["paper", "spock"],
+      spock: ["rock", "scissors"]
+    };
+
+    function getComputerChoice() {
+      return choices[Math.floor(Math.random() * choices.length)];
+    }
+
+    function playGame(playerChoice) {
+      const computerChoice = getComputerChoice();
+
+      let message = `You picked <strong>${playerChoice.toUpperCase()}</strong> 🆚 Computer picked <strong>${computerChoice.toUpperCase()}</strong><br>`;
+
+      if (playerChoice === computerChoice) {
+        message += "It's a tie! ⚔️";
+      } else if (wins[playerChoice].includes(computerChoice)) {
+        message += "You WIN! 🎉";
+        playerScore++;
+      } else {
+        message += "Computer wins 😈";
+        computerScore++;
+      }
+
+      resultDiv.innerHTML = message;
+      scoresDiv.textContent = `You: ${playerScore}  –  Computer: ${computerScore}`;
+    }
+
+    // Add click listeners to buttons
+    document.querySelectorAll("button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        playGame(btn.id);
+      });
+    });
+  </script>
+</body>
+</html>
